@@ -1,0 +1,16 @@
+#!/bin/bash
+
+for ((i=1;i<$1;i++))
+do
+
+var1=0.0
+        for ((j=0;j<5;j++))
+        do
+        var2=$( $(mpirun -np i ./a.out | awk '/Proc 0:/ {print $3}') | bc -l)
+        var3=$(echo "scale=4;$var1 + $var2)" | bc -l)
+        var1=$(echo "$var3")
+        done
+C=$(echo "scale=4; $var1 / 10" | bc -l)
+echo "Average time: $C"
+echo ""
+done
