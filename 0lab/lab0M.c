@@ -1,17 +1,14 @@
+#include "mpi.h"
 #include <time.h>
 #include <stdio.h>
-#include "mpi.h"
 int main(int argc, char* argv[])
 {
-        int ProcNum;
-        int ProcRank;
-        int RecvRank;
-        double starttime, endtime;
-
+        int ProcNum, ProcRank, RecvRank;
+        double start, end;
         MPI_Status Status;
 
         MPI_Init(&argc, &argv);
-        starttime = MPI_Wtime();
+        start = MPI_Wtime();
         MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
         MPI_Comm_size(MPI_COMM_WORLD, &ProcNum);
 
@@ -25,11 +22,9 @@ int main(int argc, char* argv[])
                         printf("Hello from process %3d\n", RecvRank);
                 }
         }
-
-        endtime = MPI_Wtime();
+        end = MPI_Wtime();
         MPI_Finalize();
-
-        printf("That took %.4f milliseconds, process number %d\n", (endtime-starttime)*1000, ProcRank);
+        printf("-----Time - %.4f ms, process №%d\n", (end-start)*1000, ProcRank);
 
         return 0;
 }
